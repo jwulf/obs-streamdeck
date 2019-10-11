@@ -1,3 +1,21 @@
+# OBS Streamdeck
+
+This is my personal workflow automation for streaming to Twitch / YouTube.
+
+It uses an Elgato Streamdeck to control OBS Studio and an Elgato Key light.
+
+I'll be extending it to trigger more Twitch integrations, Twitter, and Zeebe workflows.
+
+The code is hacky, and needs drying out, and it has hardcoded settings (some are in .env), and especially the 'Start OBS' key will only work on Mac OS.
+
+Right now, it's probably mostly interesting to someone other than me if you are interested in examples of coding with Node.js and any of the following:
+
+* OBS with the [obs-websocket-plugin](https://github.com/Palakis/obs-websocket)
+* [Elgato Streamdeck](https://www.npmjs.com/package/elgato-stream-deck)
+* Elgato Keylight
+
+---
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
