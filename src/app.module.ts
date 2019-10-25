@@ -10,6 +10,8 @@ import { ElgatoKeylightController } from './elgato-keylight/elgato-keylight.cont
 import { MuteAudioController } from './mute-audio/mute-audio.controller';
 import { MenuKeyController } from './menu-key/menu-key.controller';
 import { ObsController } from './obs/obs.controller';
+import { TwitterController } from './twitter/twitter.controller';
+import { TwitterService } from './twitter/twitter.service';
 
 @Module({
   imports: [],
@@ -21,6 +23,7 @@ import { ObsController } from './obs/obs.controller';
     StreamKeyController,
     MenuKeyController,
     ObsController,
+    TwitterController,
   ],
   providers: [
     AppService,
@@ -28,6 +31,7 @@ import { ObsController } from './obs/obs.controller';
     StreamDeckService,
     ObsService,
     ElgatoKeylightService,
+    TwitterService,
   ],
 })
 export class AppModule {}
