@@ -4,6 +4,7 @@ import { EventEmitter } from 'events';
 import * as utils from 'util';
 // tslint:disable-next-line: no-var-requires
 const ps = utils.promisify(require('ps-node'));
+import * as pslist from 'ps-list';
 
 export enum OBSStreamState {
   STARTING = 'STARTING',
@@ -66,6 +67,7 @@ export class ObsService extends EventEmitter {
       })
       .then(async () => {
         this.connected = true;
+        console.log('Connected to OBS via websocket');
         const [Err, r] = await this.getStreamingStatus();
         if (!Err) {
           this.streamState = r.streaming
@@ -166,9 +168,13 @@ export class ObsService extends EventEmitter {
       .then(r => [null, r])
       .catch(e => [e, null]);
   }
+
   private async isObsRunning() {
+    // const OBSBinary = `/Applications/OBS.app/Contents/MacOS/obs`.toLocaleLowerCase();
     const proc = await ps({ command: `\.\/obs\n` });
-    const obsRunning = proc.includes('./obs\n');
+    const independentlyStarted = await pslist();
+    const runningProcess = independentlyStarted.filter(p => p.name === 'obs');
+    const obsRunning = proc.includes('./obs\n') || runningProcess?.length > 0;
     return obsRunning;
   }
 }

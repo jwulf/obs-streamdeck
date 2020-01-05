@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import Twitter = require('twitter');
+import notifier = require('node-notifier');
 
 @Injectable()
 export class TwitterService {
@@ -9,6 +10,7 @@ export class TwitterService {
       const credentials = require('./twitter.credentials').credentials;
       this.client = new Twitter(credentials);
     } catch (e) {
+      // tslint:disable-next-line: no-console
       console.log('Twitter disabled - no credentials found.');
     }
   }
@@ -22,7 +24,11 @@ export class TwitterService {
         (error, tweet, response) => {
           if (!error) {
             // tslint:disable-next-line: no-console
-            console.log('Tweeted!');
+            console.log(`Tweeted! ${status}`);
+            notifier.notify({
+              title: 'Tweeted',
+              message: status,
+            });
             return resolve();
           }
           // tslint:disable-next-line: no-console

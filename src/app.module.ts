@@ -12,9 +12,11 @@ import { MenuKeyController } from './menu-key/menu-key.controller';
 import { ObsController } from './obs/obs.controller';
 import { TwitterController } from './twitter/twitter.controller';
 import { TwitterService } from './twitter/twitter.service';
+import { MuteAudioModule } from './mute-audio/mute-audio.module';
+import { ObsModule } from './obs/obs.module';
 
 @Module({
-  imports: [],
+  imports: [MuteAudioModule, ObsModule],
   controllers: [
     AppController,
     SecretScreenController,
@@ -29,7 +31,6 @@ import { TwitterService } from './twitter/twitter.service';
     AppService,
     SecretScreenController,
     StreamDeckService,
-    ObsService,
     ElgatoKeylightService,
     TwitterService,
   ],

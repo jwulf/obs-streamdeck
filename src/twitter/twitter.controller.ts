@@ -7,6 +7,7 @@ export class TwitterController {
   tweetKey: Key;
   magikcraftKey: Key;
   zeebeKey: Key;
+  brisjsKey: Key;
   constructor(
     private readonly twitterService: TwitterService,
     private readonly streamDeck: StreamDeckService,
@@ -21,6 +22,22 @@ export class TwitterController {
   }
 
   async register() {
+    this.brisjsKey = await this.streamDeck.registerKey({
+      name: 'BrisJS',
+      num: 7,
+      layer: 0,
+      handler: () =>
+        this.tweet(
+          `I'm streaming live from @BrisJS right now. Check it out: https://www.twitch.tv/thelegendaryjoshwulf`,
+          this.brisjsKey,
+        ),
+      states: [
+        {
+          name: 'Tweet-BrisJS',
+          imageFile: 'brisjs-key.png',
+        },
+      ],
+    });
     this.tweetKey = await this.streamDeck.registerKey({
       name: 'Twitter',
       num: 9,

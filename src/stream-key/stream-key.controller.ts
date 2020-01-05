@@ -3,6 +3,9 @@ import { StreamDeckService } from '../stream-deck/stream-deck.service';
 import { ObsService, OBSStreamState } from '../obs/obs.service';
 import { KeyBlinkSpeed, Key } from '../stream-deck/Key';
 
+import { ZBClient } from 'zeebe-node';
+import { v4 as uuid } from 'uuid';
+
 export enum StreamState {
   STOPPED = 0,
   STARTED = 1,
@@ -13,6 +16,7 @@ export enum StreamState {
 @Controller()
 export class StreamKeyController {
   key: Key;
+  streamId?: ReturnType<uuid>;
 
   constructor(
     private readonly streamDeck: StreamDeckService,
@@ -72,6 +76,6 @@ export class StreamKeyController {
 
   async keyPress() {
     this.obs.startStopStreaming();
-    return StreamState[this.obs.streamState]
+    return StreamState[this.obs.streamState];
   }
 }

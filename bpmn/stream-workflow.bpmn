@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_14wanjg" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.7.0-alpha.2">
+  <bpmn:process id="stream-workflow" name="Stream Workflow" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Start Streaming">
+      <bpmn:outgoing>SequenceFlow_1kz4bu7</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:intermediateCatchEvent id="IntermediateCatchEvent_07eobxl" name="STOP_STREAM">
+      <bpmn:incoming>SequenceFlow_1kz4bu7</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_08sse7m</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1mdc2i4" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1kz4bu7" sourceRef="StartEvent_1" targetRef="IntermediateCatchEvent_07eobxl" />
+    <bpmn:serviceTask id="ServiceTask_06pphpa" name="Set Thumbnail">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="set-thumbnail" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_08sse7m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1085miw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_08sse7m" sourceRef="IntermediateCatchEvent_07eobxl" targetRef="ServiceTask_06pphpa" />
+    <bpmn:serviceTask id="ServiceTask_0m9vv2m" name="Add to YouTube Playlist">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="add-to-playlist" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1085miw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1vpcu22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1085miw" sourceRef="ServiceTask_06pphpa" targetRef="ServiceTask_0m9vv2m" />
+    <bpmn:sequenceFlow id="SequenceFlow_1vpcu22" sourceRef="ServiceTask_0m9vv2m" targetRef="ServiceTask_0ygh4ig" />
+    <bpmn:serviceTask id="ServiceTask_0ygh4ig" name="Tweet link to archived video">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="tweet-archive-link" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1vpcu22</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_061ngiv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="EndEvent_04cwxmd" name="WIN">
+      <bpmn:incoming>SequenceFlow_061ngiv</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_061ngiv" sourceRef="ServiceTask_0ygh4ig" targetRef="EndEvent_04cwxmd" />
+  </bpmn:process>
+  <bpmn:message id="Message_1mdc2i4" name="stop.stream">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="streamId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="stream-workflow">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="159" y="142" width="77" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_07eobxl_di" bpmnElement="IntermediateCatchEvent_07eobxl">
+        <dc:Bounds x="312" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="289" y="142" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1kz4bu7_di" bpmnElement="SequenceFlow_1kz4bu7">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="312" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_06pphpa_di" bpmnElement="ServiceTask_06pphpa">
+        <dc:Bounds x="410" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_08sse7m_di" bpmnElement="SequenceFlow_08sse7m">
+        <di:waypoint x="348" y="117" />
+        <di:waypoint x="410" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0m9vv2m_di" bpmnElement="ServiceTask_0m9vv2m">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1085miw_di" bpmnElement="SequenceFlow_1085miw">
+        <di:waypoint x="510" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1vpcu22_di" bpmnElement="SequenceFlow_1vpcu22">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="770" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0ygh4ig_di" bpmnElement="ServiceTask_0ygh4ig">
+        <dc:Bounds x="770" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_04cwxmd_di" bpmnElement="EndEvent_04cwxmd">
+        <dc:Bounds x="942" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="949" y="142" width="22" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_061ngiv_di" bpmnElement="SequenceFlow_061ngiv">
+        <di:waypoint x="870" y="117" />
+        <di:waypoint x="942" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
